@@ -1,176 +1,91 @@
 <div class="body-main">
 
-<h1>DAFTAR PEGAWAI</h1>
-  
+  <h1>DAFTAR PEGAWAI</h1>
+
   <table class="table table-hover">
     <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nama</th>
+            <th scope="col">NIP</th>
+            <th scope="col">jabatan</th>
+            <th scope="col">emai</th>
+            <th scope="col">sex</th>
+            <th scope="col">Alamat</th>
+            <th scope="col"></th>
+        </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-      <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
+        <tr *ngFor="let item of pegawaiService.Datas; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{item.nama}}</td>
+            <td>{{item.nip}}</td>
+            <td>{{item.jabatan}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.sex}}</td>
+            <td>{{item.alamat}}</td>
+            <td>
+                <fa-icon (click)="editPegawai(item,content)" [icon]="['fas','edit']"></fa-icon>
+            </td>
+           
         </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-          <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-              <tr>
-                  <th scope="row">3</th>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                  <tr>
-                      <th scope="row">3</th>
-                      <td colspan="2">Larry the Bird</td>
-                      <td>@twitter</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td colspan="2">Larry the Bird</td>
-                          <td>@twitter</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                          </tr>
-                          <tr>
-                              <th scope="row">3</th>
-                              <td colspan="2">Larry the Bird</td>
-                              <td>@twitter</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
-                              <tr>
-                                  <th scope="row">3</th>
-                                  <td colspan="2">Larry the Bird</td>
-                                  <td>@twitter</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
-                                  <tr>
-                                      <th scope="row">3</th>
-                                      <td colspan="2">Larry the Bird</td>
-                                      <td>@twitter</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td colspan="2">Larry the Bird</td>
-                                        <td>@twitter</td>
-                                      </tr>
-                                      <tr>
-                                          <th scope="row">3</th>
-                                          <td colspan="2">Larry the Bird</td>
-                                          <td>@twitter</td>
-                                        </tr> <tr>
-                                            <th scope="row">3</th>
-                                            <td colspan="2">Larry the Bird</td>
-                                            <td>@twitter</td>
-                                          </tr> <tr>
-                                              <th scope="row">3</th>
-                                              <td colspan="2">Larry the Bird</td>
-                                              <td>@twitter</td>
-                                            </tr> <tr>
-                                                <th scope="row">3</th>
-                                                <td colspan="2">Larry the Bird</td>
-                                                <td>@twitter</td>
-                                              </tr> <tr>
-                                                  <th scope="row">3</th>
-                                                  <td colspan="2">Larry the Bird</td>
-                                                  <td>@twitter</td>
-                                                </tr> <tr>
-                                                    <th scope="row">3</th>
-                                                    <td colspan="2">Larry the Bird</td>
-                                                    <td>@twitter</td>
-                                                  </tr> <tr>
-                                                      <th scope="row">3</th>
-                                                      <td colspan="2">Larry the Bird</td>
-                                                      <td>@twitter</td>
-                                                    </tr> <tr>
-                                                        <th scope="row">3</th>
-                                                        <td colspan="2">Larry the Bird</td>
-                                                        <td>@twitter</td>
-                                                      </tr> <tr>
-                                                          <th scope="row">3</th>
-                                                          <td colspan="2">Larry the Bird</td>
-                                                          <td>@twitter</td>
-                                                        </tr> <tr>
-                                                            <th scope="row">3</th>
-                                                            <td colspan="2">Larry the Bird</td>
-                                                            <td>@twitter</td>
-                                                          </tr> <tr>
-                                                              <th scope="row">3</th>
-                                                              <td colspan="2">Larry the Bird</td>
-                                                              <td>@twitter</td>
-                                                            </tr> <tr>
-                                                                <th scope="row">3</th>
-                                                                <td colspan="2">Larry the Bird</td>
-                                                                <td>@twitter</td>
-                                                              </tr> <tr>
-                                                                  <th scope="row">3</th>
-                                                                  <td colspan="2">Larry the Bird</td>
-                                                                  <td>@twitter</td>
-                                                                </tr> <tr>
-                                                                    <th scope="row">3</th>
-                                                                    <td colspan="2">Larry the Bird</td>
-                                                                    <td>@twitter</td>
-                                                                  </tr>
+     
     </tbody>
   </table>
 </div>
 
 
 <span class="addItemIcon ">
-  <fa-icon  [icon]="['fas','plus-circle']" size="3x"></fa-icon>
+  <fa-icon (click)="addPegawai(content)" [icon]="['fas','plus-circle']" size="3x"></fa-icon>
 </span>
+
+
+
+
+
+<ng-template class="modal" #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Pegawai </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="pegawaiForm" (ngSubmit)="saveChange(pegawaiForm.value)">
+      <div class="form-group">
+        <label for="nama">Nama Pegawai</label>
+        <input formControlName="nama" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="nip">NIP</label>
+        <input formControlName='nip'  class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input formControlName="email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="alamat">Alamat</label>
+        <input formControlName="alamat" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="jabatan">Jabatan</label>
+        <input formControlName="jabatan" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="kelamin">Jenis Kelamin</label>
+        <input formControlName="sex" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="!pegawaiForm.valid" class="btn btn-outline-dark">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<swal #swalInfo
+      title="Info"
+      text=""
+      type="info">
+</swal>

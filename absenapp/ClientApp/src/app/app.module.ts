@@ -21,6 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { HelperComponent } from './helper/helper.component';
 import { ModelsComponent } from './models/models.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { ModelsComponent } from './models/models.component';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule, FontAwesomeModule, NgbModule, 
+    HttpClientModule, FontAwesomeModule, NgbModule, SweetAlert2Module.forRoot(),
     FormsModule,ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },

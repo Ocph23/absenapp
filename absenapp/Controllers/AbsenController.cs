@@ -35,8 +35,9 @@ namespace absenapp.Controllers {
             }
         }
 
+     
         [HttpPost]
-        public async Task<IActionResult> PostAsync ([FromBody] absen model) {
+        public async Task<IActionResult> Post ([FromBody] absen model) {
             try {
                 absen result = await absenService.Insert (model);
                 return Ok (result);

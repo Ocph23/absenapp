@@ -2,53 +2,79 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-models',
-  template:''
+  template: ''
 })
-export class ModelsComponent  {
+export class ModelsComponent {
   constructor() { }
 }
 
-export interface absen
-    {
-        idabsen: number;
+export interface absen {
+  idabsen: number;
 
-        idpegawai: number;
+  idpegawai: number;
 
-        jamdatang: Date | string;
+  jamdatang: Date | string;
 
-        jampulang: Date | string;
+  jampulang: Date | string;
 
-        keterangan: Date | string;
+  keterangan:string;
 
-    }
-
-
-
-    export interface AbsenSetting
-    {
-        idsetting: number;
-
-        nominal: number;
-
-    }
+}
 
 
 
-    export interface pegawai
-    {
-        idpegawai: number;
+export interface AbsenSetting {
+  idsetting: number;
 
-        nama: string;
+  nominal: number;
 
-        nip: string;
+}
 
-        alamat: string;
 
-        email: string;
 
-        jabatan: string;
+export interface pegawai {
+  idpegawai: number;
 
-        password: string;
+  nama: string;
 
-        sex: string;
-    }
+  nip: string;
+
+  alamat: string;
+
+  email: string;
+
+  jabatan: string;
+
+  password: string;
+
+  sex: string;
+}
+
+export interface User {
+  iduser: number;
+
+  username: string;
+
+  password: string;
+
+  avatar: string;
+
+  PasswordHash: string;
+
+  PasswordSalt: string;
+
+  token: string;
+
+  roles: role[];
+
+  name: string;
+
+}
+
+export interface role 
+{
+       idrole: number; 
+
+       name: string; 
+
+  }

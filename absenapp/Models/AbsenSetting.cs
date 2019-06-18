@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace absenapp.Models
 {
-    [TableName("role")]
+    [TableName("setting")]
     public class AbsenSetting
     {
         [PrimaryKey("idsetting")]

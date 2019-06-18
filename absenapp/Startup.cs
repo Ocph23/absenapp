@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using absenapp.Helpers;
 using absenapp.Models;
 using absenapp.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace absenapp
 {
@@ -69,8 +70,10 @@ namespace absenapp
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService> ();
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
 
-        
             services.AddSpaStaticFiles (configuration => {
                 configuration.RootPath = "ClientApp/dist";
             });
@@ -97,7 +100,13 @@ namespace absenapp
             app.UseHttpsRedirection ();
             app.UseStaticFiles ();
             app.UseSpaStaticFiles ();
+            app.UseSwagger();
 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             app.UseMvc (routes => {
                 routes.MapRoute (
                     name: "default",

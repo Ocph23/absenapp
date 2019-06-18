@@ -1,8 +1,9 @@
-using absenapp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using absenapp.Helpers;
+using absenapp.Models;
 
 namespace absenapp.Services {
     public interface IUserService {
@@ -12,7 +13,7 @@ namespace absenapp.Services {
         Task<User> Create (User user, string password);
         void Update (User user, string password = null);
         void Delete (int id);
-        pegawai GetPegawaiProfile(int id);
+        pegawai GetPegawaiProfile (int id);
 
         User GetByEmail (string email);
         bool ChangePassword (ChangePassword data, User userData);
@@ -23,6 +24,8 @@ namespace absenapp.Services {
         private UserRoleServices roleServices = new UserRoleServices ();
 
         public async Task<User> Authenticate (string username, string password) {
+
+            await RegisterNewUser ();
             if (string.IsNullOrEmpty (username) || string.IsNullOrEmpty (password))
                 return null;
 
@@ -38,7 +41,41 @@ namespace absenapp.Services {
                 user.roles = await this.roleServices.GetUserRoleAsync (user);;
                 return user;
             }
+        }
 
+        public async Task RegisterNewUser () {
+            // map dto to entity
+            using (var db = new OcphDbContext ()) {
+                var trans = db.BeginTransaction ();
+                try {
+                    var onData = db.Users.Select ().Count ();
+                    if (onData > 0) {
+                        return;
+                    }
+                    UserService userService = new UserService ();
+                    string password = "MyPassword";
+                    User user = await userService.Create (new User { username = "ocph23.test@gmail.com", password = password }, password);
+
+                    if (user == null)
+                        throw new System.Exception ("Create User Error");
+
+
+                    string roleName = "admin";
+                    UserRoleServices userRoleService = new UserRoleServices ();
+                    if (!await userRoleService.RoleExsistsAsync (roleName))
+                        if(!await userRoleService.CreateRoleAsync (roleName))
+                            throw new System.Exception ($"Role {roleName} Not Found");
+
+                    if (!await userRoleService.AddUserInRoleAsync (user, roleName))
+                        throw new System.Exception ($"Error Add User To role  {roleName}");
+
+                    trans.Commit ();
+                  return;
+
+                } catch (AppException ex) {
+                   throw new SystemException(ex.Message);
+                }
+            }
         }
 
         public IEnumerable<User> GetAll () {
@@ -62,7 +99,7 @@ namespace absenapp.Services {
                 var data = db.Users.Where (x => x.username == user.username).FirstOrDefault ();
 
                 if (data != null)
-                    throw new SystemException("Username \"" + user.username + "\" is already taken");
+                    throw new SystemException ("Username \"" + user.username + "\" is already taken");
 
                 byte[] passwordHash, passwordSalt;
                 CreatePasswordHash (password, out passwordHash, out passwordSalt);
@@ -81,12 +118,12 @@ namespace absenapp.Services {
                 var user = db.Users.Where (x => x.iduser == userParam.iduser).FirstOrDefault ();
 
                 if (user == null)
-                    throw new SystemException("User not found");
+                    throw new SystemException ("User not found");
 
                 if (userParam.username != user.username) {
                     // username has changed so check if the new username is already taken
                     if (db.Users.Where (x => x.username == userParam.username).FirstOrDefault () != null)
-                        throw new SystemException("Username " + userParam.username + " is already taken");
+                        throw new SystemException ("Username " + userParam.username + " is already taken");
                 }
 
                 // update user properties
@@ -100,7 +137,7 @@ namespace absenapp.Services {
                     user.PasswordSalt = passwordSalt;
                 }
                 if (!db.Users.Update (x => new { x.username, x.PasswordHash, x.PasswordSalt }, user, x => x.iduser == user.iduser)) {
-                    throw new SystemException("not saved");
+                    throw new SystemException ("not saved");
                 }
             }
         }
@@ -176,7 +213,7 @@ namespace absenapp.Services {
                 }
             } catch (System.Exception ex) {
 
-                throw new SystemException(ex.Message);
+                throw new SystemException (ex.Message);
             }
         }
 

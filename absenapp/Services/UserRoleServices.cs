@@ -57,7 +57,7 @@ namespace absenapp.Services {
         public async Task<bool> RoleExsistsAsync (string roleName) {
             bool exists = false;
             using (var db = new OcphDbContext ()) {
-                var result = db.Roles.Where (x => x.name == roleName);
+                var result = db.Roles.Where (x => x.name == roleName).FirstOrDefault();
                 if (result != null)
                     exists = true;
             }

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { StorageHelper } from '../helper/helper.component';
-import { pegawai } from '../models/models.component';
+import { pegawai, User } from '../models/models.component';
 
 @Injectable({
   providedIn: 'root'
@@ -94,7 +94,7 @@ export class AuthService {
   }
 
   getUserId(): number {
-    const userData = this.storage.getObject('user') as IUser;
+    const userData = this.storage.getObject('user') as User;
     if (userData != null) {
       return userData.iduser;
     } else {

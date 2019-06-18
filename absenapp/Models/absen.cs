@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace absenapp.Models
 {
-    [TableName("role")]
+    [TableName("absen")]
     public class absen
     {
         [PrimaryKey("idabsen")]
@@ -23,7 +23,7 @@ namespace absenapp.Models
         public DateTime jampulang { get; set; }
 
         [DbColumn("keterangan")]
-        public DateTime keterangan { get; set; }
+        public string keterangan { get; set; }
 
     }
 }

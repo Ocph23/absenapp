@@ -8,46 +8,49 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace absenapp.Controllers {
 
-    [Route ("api/[controller]")]
+    [Route("api/[controller]")]
     public class PegawaiController : Controller {
 
-        PegawaiServices pegawaiService = new PegawaiServices ();
+        PegawaiServices pegawaiService = new PegawaiServices();
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync () {
+        public async Task<IActionResult> Get() {
             try {
-                var result = await pegawaiService.Get ();
-                return Ok (result);
+                var result = await pegawaiService.Get();
+                return Ok(result);
             } catch (System.Exception ex) {
-                return BadRequest (ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
-        [HttpGet ("id")]
-        public async Task<IActionResult> GetByIdAsync (int id) {
+
+        [Route("[action]/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> Get(int id) {
             try {
-                var result = await pegawaiService.GetById (id);
-                return Ok (result);
-            
+                var result = await pegawaiService.GetById(id);
+                return Ok(result);
+
             } catch (System.Exception ex) {
 
-                return BadRequest (ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync ([FromBody] pegawai model) {
+        public async Task<IActionResult> Post([FromBody] pegawai model) {
             try {
-                pegawai result = await pegawaiService.Insert (model);
-                return Ok (result);
+                pegawai result = await pegawaiService.Insert(model);
+                return Ok(result);
             } catch (System.Exception ex) {
 
-                return BadRequest (ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
+
         [HttpPut]
-        public async Task<IActionResult> PutAsync (int id, [FromBody] pegawai model) {
+        public async Task<IActionResult> Put([FromBody] pegawai model) {
             try {
                 var result = await pegawaiService.Update (model);
                 return Ok (result);
@@ -58,7 +61,7 @@ namespace absenapp.Controllers {
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteAsync (int id) {
+        public async Task<IActionResult> Delete(int id) {
             try {
                 var result = await pegawaiService.Delete (id);
                 return Ok (result);
