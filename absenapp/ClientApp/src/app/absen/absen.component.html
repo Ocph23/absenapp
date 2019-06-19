@@ -12,14 +12,19 @@
                   <fa-icon [icon]="['fas','user']"></fa-icon>
                 </span>
               </div>
-              <select formControlName='userName' type="text" class="form-control">
-                  <option>Budi</option>
+              <select formControlName='name' type="text" class="form-control">
+                  <option [value]="item" *ngFor="let item of pegawaiService.Datas"> {{item.name}}</option>
               </select>
             </div>
           </div>
           <div class="form-group text-center">
-            <button routerLink="absen" class="btn btn-success" [swal]="{ title: 'Anda Yakin Melakukan Absen ?' }"
-              (confirm)="absenSave($event,loginForm.value)" (cancel)="handleRefusal($event)">Absen</button>
+              <button class="btn btn-success" 
+              [swal]="{ title: 'Yakin Melakukan Absen ?' ,showCancelButton:'true'}"
+            
+              (confirm)="absenSave($event,loginForm.value)" 
+              (cancel)="handleRefusalToSetEmail($event)">
+              OK
+            </button>
             <button routerLink="/" class="btn btn-danger">Kembali</button>
           </div>
         </form>
@@ -28,3 +33,6 @@
   </div>
 
 </div>
+
+
+<swal #swalMessage></swal>

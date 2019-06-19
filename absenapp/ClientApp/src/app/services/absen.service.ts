@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { absen } from '../models/models.component';
+import { absen, AbsenSetting } from '../models/models.component';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
@@ -52,7 +52,7 @@ export class AbsenService {
     SaveChange(model: absen) {
     try {
         return this.http.post<absen>(
-            this.baseUrl + '/api/absen',model,
+            this.baseUrl + '/api/absen', model,
             this.auth.getHttpHeader()
         );
     } catch (error) {
@@ -66,4 +66,15 @@ export class AbsenService {
       this.auth.getHttpHeader()
     ).toPromise();
   }
+
+
+  Setting(model: AbsenSetting) {
+    try {
+        return this.http.post<AbsenSetting>(
+            this.baseUrl + '/api/absen/setting', model,
+            this.auth.getHttpHeader()
+        );
+    } catch (error) {
+      console.log(error);
+    }}
 }

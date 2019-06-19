@@ -69,5 +69,16 @@ namespace absenapp.Controllers {
             }
         }
 
+        [HttpPost("setting")]
+        public async Task<IActionResult> Setting ([FromBody] AbsenSetting model) {
+            try {
+                var result = await absenService.Setting (model);
+                return Ok (result);
+            } catch (System.Exception ex) {
+
+                return BadRequest (ex.Message);
+            }
+        }
+
     }
 }

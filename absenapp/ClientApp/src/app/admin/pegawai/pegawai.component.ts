@@ -58,7 +58,7 @@ export class PegawaiComponent implements OnInit {
             'jabatan': [item.jabatan, Validators.required],
         });
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', backdrop: 'static' }).result.then((result) => {
-            const closeResult = `Closed with: ${result}`;
+            const closeResult = `Closed with: ${result}` ;
         }, (reason) => {
             const closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
