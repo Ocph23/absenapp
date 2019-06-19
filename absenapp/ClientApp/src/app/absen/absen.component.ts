@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AbsenService } from '../services/absen.service';
-import { absen } from '../models/models.component';
+import { absen, pegawai } from '../models/models.component';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { PegawaiService } from '../services/pegawai.service';
 
@@ -19,7 +19,7 @@ test: string;
       private router: Router, private fb: FormBuilder, 
       private absenService: AbsenService, private pegawaiService:PegawaiService) {
   this.loginForm = fb.group({
-    'name': [null, Validators.required],
+    'pegawai': [null, Validators.required],
   });
 }
   ngOnInit() {
@@ -28,7 +28,7 @@ test: string;
 
 
   absenSave(event: any, item: any): void {
-      const data: absen = { idpegawai: 1 } as absen;
+      const data: absen = { idpegawai: item.pegawai.idpegawai, status:'masuk' } as absen;
       this.absenService.SaveChange(data).subscribe(x => {
         this.swal.text = 'Sukses';
         this.swal.type = 'info';

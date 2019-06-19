@@ -21,7 +21,7 @@ namespace absenapp
         public IRepository<userinrole> UserRoles { get { return new Repository<userinrole> (this); } }
         public IRepository<pegawai> Pagawai{ get { return new Repository<pegawai>(this); } }
         public IRepository<absen> Absens{ get { return new Repository<absen>(this); } }
-        public IRepository<AbsenSetting> Setting { get { return new Repository<AbsenSetting>(this); } }
+        public IRepository<jabatan>Jabatan { get { return new Repository<jabatan>(this); } }
 
     }
 }

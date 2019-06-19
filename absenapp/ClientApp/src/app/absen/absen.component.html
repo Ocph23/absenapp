@@ -12,8 +12,8 @@
                   <fa-icon [icon]="['fas','user']"></fa-icon>
                 </span>
               </div>
-              <select formControlName='name' type="text" class="form-control">
-                  <option [value]="item" *ngFor="let item of pegawaiService.Datas"> {{item.name}}</option>
+              <select formControlName='pegawai' type="text" class="form-control">
+                  <option [ngValue]="item" *ngFor="let item of pegawaiService.Datas"> {{item.nama}}</option>
               </select>
             </div>
           </div>
@@ -34,5 +34,8 @@
 
 </div>
 
-
-<swal #swalMessage></swal>
+<swal #swalMessage
+      title="Info"
+      text=""
+      type="info">
+</swal>

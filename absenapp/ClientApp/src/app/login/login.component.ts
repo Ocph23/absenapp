@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,8 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  @ViewChild('swalMessage') swal:SwalComponent;
   public loginForm: FormGroup;
   constructor(private router: Router, private fb: FormBuilder, private auth: AuthService) {
     this.loginForm = fb.group({
@@ -28,8 +31,11 @@ export class LoginComponent implements OnInit {
       } else {
         this.router.navigate(['/bendahara']);
       }
-    }, error => {
-      alert(error.error);
+    }, err => {
+      this.swal.text=err.error.message;
+      this.swal.type="error";
+      this.swal.title="ERROR";
+      this.swal.show();
     });
   }
 

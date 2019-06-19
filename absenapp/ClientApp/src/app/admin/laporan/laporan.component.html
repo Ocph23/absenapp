@@ -1,3 +1,56 @@
-<p>
-  laporan works!
-</p>
+<div class="body-main">
+
+  <h1>DAFTAR ABSEN</h1>
+
+  <div class="form-group">
+      <label for="alamat">Tahun</label>
+      <select style="width:300px" [(ngModel)]="tahun"  (change)="onChange()" class="form-control">
+          <option [ngValue]="i" *ngFor="let i of tahuns">{{i}}</option>
+        </select>
+    </div>
+
+    <div class="form-group"> 
+        <label for="alamat">Bulan</label>
+  <select style="width:300px" [(ngModel)]="bulan" (change)="onChange()"  class="form-control">
+      <option [ngValue]="i" *ngFor="let i of bulans">{{i}}</option>
+    </select>
+      </div>
+
+  <table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Masuk</th>
+            <th scope="col">Sakit</th>
+            <th scope="col">Izin</th>
+            <th scope="col">Dinas Luar</th>
+            <th scope="col">Tunjangan</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of datas; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{item.namapegawai}}</td>
+            <td>{{item.masuk}}</td>
+            <td>{{item.sakit}}</td>
+            <td>{{item.izin}}</td>
+            <td>{{item.dinas}}</td>
+            <td>Rp.{{hitungTunjangan(item)|number}}</td>
+            <td>
+                <fa-icon (click)="Detail(item,detail)" [icon]="['fas','list']"></fa-icon>
+            </td>
+           
+        </tr>
+     
+    </tbody>
+  </table>
+</div>
+
+
+<swal #swalInfo
+      title="Info"
+      text=""
+      type="info">
+</swal>

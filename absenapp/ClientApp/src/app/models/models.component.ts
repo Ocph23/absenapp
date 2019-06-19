@@ -10,44 +10,29 @@ export class ModelsComponent {
 
 export interface absen {
   idabsen: number;
-
+  namapegawai: string;
   idpegawai: number;
 
-  jamdatang: Date | string;
+  jamdatang: string | Date;
 
-  jampulang: Date | string;
+  jampulang: string | Date;
 
-  keterangan:string;
+  status: string;
 
-}
-
-
-
-export interface AbsenSetting {
-  idsetting: number;
-
-  nominal: number;
+  keterangan: string;
 
 }
-
-
 
 export interface pegawai {
   idpegawai: number;
-
+  idjabatan: number;
   nama: string;
-
   nip: string;
-
   alamat: string;
-
   email: string;
-
-  jabatan: string;
-
-  password: string;
-
+  kontak: string;
   sex: string;
+  jabatan: jabatan;
 }
 
 export interface User {
@@ -71,10 +56,14 @@ export interface User {
 
 }
 
-export interface role 
-{
-       idrole: number; 
+export interface role {
+  idrole: number;
+  name: string;
 
-       name: string; 
+}
 
-  }
+export interface jabatan {
+  idjabatan: number;
+  nama: string;
+  tunjangan: number;
+}

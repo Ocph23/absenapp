@@ -13,6 +13,9 @@ namespace absenapp.Models
         [DbColumn("idpegawai")]
         public int idpegawai { get; set; }
 
+        [DbColumn("idjabatan")]
+        public int idjabatan { get; set; }
+
         [DbColumn("nama")]
         public string nama { get; set; }
 
@@ -24,14 +27,13 @@ namespace absenapp.Models
 
         [DbColumn("email")]
         public string email { get; set; }
-
-        [DbColumn("jabatan")]
-        public string jabatan { get; set; }
-
-        [DbColumn("password")]
-        public string password{ get; set; }
+        
+        [DbColumn("kontak")]
+        public string kontak { get; set; }
 
         [DbColumn("sex")]
         public string sex{ get; set; }
+
+        public jabatan jabatan { get; set; }
     }
 }

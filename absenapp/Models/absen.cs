@@ -1,4 +1,5 @@
-﻿using Ocph.DAL;
+﻿using System.Data.Common;
+using Ocph.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace absenapp.Models
         [DbColumn("idpegawai")]
         public int idpegawai { get; set; }
 
+        [DbColumn("status")]
+        public string status { get; set; }
+
         [DbColumn("jamdatang")]
         public DateTime jamdatang { get; set; }
 
@@ -24,6 +28,8 @@ namespace absenapp.Models
 
         [DbColumn("keterangan")]
         public string keterangan { get; set; }
+
+        public string namapegawai{get;set;}
 
     }
 }

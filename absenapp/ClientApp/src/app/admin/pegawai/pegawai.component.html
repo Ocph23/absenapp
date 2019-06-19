@@ -9,7 +9,7 @@
             <th scope="col">Nama</th>
             <th scope="col">NIP</th>
             <th scope="col">jabatan</th>
-            <th scope="col">emai</th>
+            <th scope="col">email</th>
             <th scope="col">sex</th>
             <th scope="col">Alamat</th>
             <th scope="col"></th>
@@ -20,12 +20,13 @@
             <th scope="row">{{i+1}}</th>
             <td>{{item.nama}}</td>
             <td>{{item.nip}}</td>
-            <td>{{item.jabatan}}</td>
+            <td>{{item.jabatan.nama}}</td>
             <td>{{item.email}}</td>
             <td>{{item.sex}}</td>
             <td>{{item.alamat}}</td>
             <td>
                 <fa-icon (click)="editPegawai(item,content)" [icon]="['fas','edit']"></fa-icon>
+                <fa-icon (click)="Detail(item,detail)" [icon]="['fas','list']"></fa-icon>
             </td>
            
         </tr>
@@ -39,10 +40,6 @@
   <fa-icon (click)="addPegawai(content)" [icon]="['fas','plus-circle']" size="3x"></fa-icon>
 </span>
 
-
-
-
-
 <ng-template class="modal" #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Pegawai </h4>
@@ -51,7 +48,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="pegawaiForm" (ngSubmit)="saveChange(pegawaiForm.value)">
+    <form [formGroup]="pegawaiForm" (ngSubmit)="saveChange(pegawaiForm.value, SelectedEdit)">
       <div class="form-group">
         <label for="nama">Nama Pegawai</label>
         <input formControlName="nama" class="form-control">
@@ -65,16 +62,26 @@
         <input formControlName="email" class="form-control">
       </div>
       <div class="form-group">
+        <label for="kotank">Kontak</label>
+        <input formControlName="kontak" class="form-control">
+      </div>
+      <div class="form-group">
         <label for="alamat">Alamat</label>
         <input formControlName="alamat" class="form-control">
       </div>
       <div class="form-group">
         <label for="jabatan">Jabatan</label>
-        <input formControlName="jabatan" class="form-control">
+        <select formControlName='jabatan' class="form-control">
+          <option [ngValue]="item" *ngFor="let item of jabatanService.Datas"> {{item.nama}}</option>
+        </select>
       </div>
       <div class="form-group">
         <label for="kelamin">Jenis Kelamin</label>
-        <input formControlName="sex" class="form-control">
+        <select formControlName='sex' type="text" class="form-control">
+          <option value="L" > Laki-Laki</option>
+          <option value="P" > Perempuan</option>
+
+        </select>
       </div>
       <div class="modal-footer">
         <button type="submit" [disabled]="!pegawaiForm.valid" class="btn btn-outline-dark">Save</button>
@@ -83,6 +90,60 @@
   </div>
 </ng-template>
 
+
+<ng-template class="modal" #detail let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{DetailTitle}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="alamat">Tahun</label>
+      <select style="width:300px" [(ngModel)]="tahun"  (change)="onChange()" class="form-control">
+          <option [ngValue]="i" *ngFor="let i of tahuns">{{i}}</option>
+        </select>
+    </div>
+
+    <div class="form-group"> 
+        <label for="alamat">Bulan</label>
+  <select style="width:300px" [(ngModel)]="bulan" (change)="onChange()"  class="form-control">
+      <option [ngValue]="i" *ngFor="let i of bulans">{{i}}</option>
+    </select>
+      </div>
+
+  <table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nama</th>
+            <th scope="col">Masuk</th>
+            <th scope="col">Sakit</th>
+            <th scope="col">Izin</th>
+            <th scope="col">Dinas Luar</th>
+            <th scope="col">Tunjangan</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of Absens; let i = index">
+            <th scope="row">{{i+1}}</th>
+            <td>{{item.namapegawai}}</td>
+            <td>{{item.masuk}}</td>
+            <td>{{item.sakit}}</td>
+            <td>{{item.izin}}</td>
+            <td>{{item.dinas}}</td>
+            <td>
+                <fa-icon (click)="Detail(item,detail)" [icon]="['fas','list']"></fa-icon>
+            </td>
+           
+        </tr>
+     
+    </tbody>
+  </table>
+  </div>
+</ng-template>
 
 <swal #swalInfo
       title="Info"

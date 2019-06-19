@@ -11,7 +11,12 @@ namespace absenapp.DataAccess {
     public Task<pegawai> GetById (int id) {
       using (var db = new OcphDbContext ()) {
         try {
-          return Task.FromResult (db.Pagawai.Where (x => x.idpegawai == id).FirstOrDefault ());
+          var result = (from a in db.Pagawai.Where (x => x.idpegawai == id)
+                        join b in db.Jabatan.Select() on a.idjabatan equals b.idjabatan
+                         select new pegawai{idpegawai=a.idpegawai, nama=a.nama, alamat=a.alamat,
+                         idjabatan=a.idjabatan, email=a.email, sex=a.sex, jabatan=b  } ).FirstOrDefault();
+
+          return Task.FromResult (result);
         } catch (System.Exception ex) {
           throw new AppException (ex.Message);
         }
@@ -21,7 +26,11 @@ namespace absenapp.DataAccess {
     public Task<List<pegawai>> Get () {
       using (var db = new OcphDbContext ()) {
         try {
-          return Task.FromResult (db.Pagawai.Select ().ToList ());
+           var result = (from a in db.Pagawai.Select()
+                        join b in db.Jabatan.Select() on a.idjabatan equals b.idjabatan
+                         select new pegawai{idpegawai=a.idpegawai, nama=a.nama, alamat=a.alamat, nip=a.nip,
+                         idjabatan=a.idjabatan, email=a.email, kontak=a.kontak, sex=a.sex, jabatan=b  } ).ToList();
+          return Task.FromResult (result);
         } catch (System.Exception ex) {
           throw new AppException (ex.Message);
         }
@@ -31,7 +40,7 @@ namespace absenapp.DataAccess {
     public Task<bool> Update (pegawai item) {
       using (var db = new OcphDbContext ()) {
         try {
-          return Task.FromResult (db.Pagawai.Update (x => new { x.alamat, x.jabatan, x.nama, x.nip, x.sex }, item, x => x.idpegawai == item.idpegawai));
+          return Task.FromResult (db.Pagawai.Update (x => new { x.alamat, x.email,x.kontak, x.idjabatan, x.nama, x.nip, x.sex }, item, x => x.idpegawai == item.idpegawai));
         } catch (System.Exception ex) {
           throw new AppException (ex.Message);
         }

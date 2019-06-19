@@ -15,13 +15,13 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { AbsenComponent } from './absen/absen.component';
 import { PegawaiComponent } from './admin/pegawai/pegawai.component';
-import { SettingComponent } from './admin/setting/setting.component';
 import { LaporanComponent } from './admin/laporan/laporan.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { HelperComponent } from './helper/helper.component';
 import { ModelsComponent } from './models/models.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { JabatanComponent } from './admin/jabatan/jabatan.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +32,11 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AdminComponent,
     AbsenComponent,
     PegawaiComponent,
-    SettingComponent,
     LaporanComponent,
     AdminHomeComponent,
     HelperComponent,
-    ModelsComponent
+    ModelsComponent,
+    JabatanComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,7 +50,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
       children: [
         { path: '', component: AdminHomeComponent },
         { path: 'pegawai', component: PegawaiComponent },
-        { path: 'setting', component: SettingComponent },
+        { path: 'jabatan', component: JabatanComponent },
         { path: 'laporan', component: LaporanComponent },
       ] }
     ])
