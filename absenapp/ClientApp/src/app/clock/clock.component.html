@@ -1,0 +1,20 @@
+<div class="body">
+    <div class="clock">
+        <div class="wrap">
+          <span class="hour" [ngStyle]="{'transform': 'rotate(' + hour + 'deg)'}"></span>
+          <span class="minute" [ngStyle]="{'transform': 'rotate(' + minute + 'deg)'}"></span>
+          <span class="second" [ngStyle]="{'transform': 'rotate(' + second + 'deg)'}"></span>
+          <span class="dot"></span>
+        </div>
+     <div class="hari">
+        <div class="text-center">
+            <div>{{getDate()|date:'dd MMM yyyy'}}</div>  
+            <div>{{getHari()}}</div>
+        </div>
+        <div  style="background: silver 1px;position: relative;">
+            <div class="text-center" style="background: forestgreen;position:absolute" > </div>
+        </div>
+        
+     </div>
+      </div>
+</div>

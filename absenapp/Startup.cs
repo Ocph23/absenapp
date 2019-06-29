@@ -65,6 +65,8 @@ namespace absenapp
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService> ();
+               services.AddScoped<IUserRoleService, UserRoleServices> ();
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });

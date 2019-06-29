@@ -94,6 +94,10 @@
 
         </select>
       </div>
+      <div class="form-inline">
+          <label for="kelamin">Akses Laporan</label>
+          <input formControlName='bendahara' style="margin: 10px;width:20px" type="checkbox" class="form-control">
+        </div>
       <div class="modal-footer">
         <button type="submit" [disabled]="!pegawaiForm.valid" class="btn btn-outline-dark">Save</button>
       </div>
@@ -152,7 +156,7 @@
           <th scope="col">Datang</th>
           <th scope="col">Pulang</th>
           <th scope="col">Keterangan</th>
-          <th scope="col"></th>
+         
         </tr>
       </thead>
       <tbody>
@@ -164,9 +168,6 @@
           <td>{{item.jamdatang|date : 'HH:MM:ss'}}</td>
           <td>{{item.jampulang|date : 'HH:MM:ss'}}</td>
           <td>{{item.keterangan}}</td>
-          <td>
-            <fa-icon (click)="EditAbsen(item,addoreditabsen)" [icon]="['fas','edit']"></fa-icon>
-          </td>
         </tr>
 
       </tbody>

@@ -22,6 +22,8 @@ import { HelperComponent } from './helper/helper.component';
 import { ModelsComponent } from './models/models.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { JabatanComponent } from './admin/jabatan/jabatan.component';
+import { ClockComponent } from './clock/clock.component';
+import { BendaharaComponent } from './bendahara/bendahara.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { JabatanComponent } from './admin/jabatan/jabatan.component';
     AdminHomeComponent,
     HelperComponent,
     ModelsComponent,
-    JabatanComponent
+    JabatanComponent,
+    ClockComponent,
+    BendaharaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,6 +49,7 @@ import { JabatanComponent } from './admin/jabatan/jabatan.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
+      { path: 'bendahara', component: BendaharaComponent},
       { path: 'absen', component: AbsenComponent},
       { path: 'admin', component: AdminComponent,
       children: [

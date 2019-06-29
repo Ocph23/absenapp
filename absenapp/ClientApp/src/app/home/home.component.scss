@@ -59,3 +59,29 @@ button{
   height: 100vh;
   position: relative;
 }
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    .body-content {
+      padding-top: 85px;
+      width: 100% !important;
+    }
+
+    .leftside{
+      width: 0px;
+    }
+}
+
+
+.leftside{
+  width: 30%;
+}
+
+.body-content{
+  width: 70%;
+}

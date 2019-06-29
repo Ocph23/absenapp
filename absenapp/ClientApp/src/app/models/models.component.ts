@@ -33,6 +33,7 @@ export interface pegawai {
   kontak: string;
   sex: string;
   jabatan: jabatan;
+  bendahara: boolean;
 }
 
 export interface User {

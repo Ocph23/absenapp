@@ -1,0 +1,66 @@
+<div class="container">
+    <h1 style="margin: 20px" class="text-center">DAFTAR TUNJANGAN PEGAWAI</h1>
+  
+    <div class="form-group no-print">
+      <label for="alamat">Tahun</label>
+      <select
+        style="width:300px"
+        [(ngModel)]="tahun"
+        (change)="onChange()"
+        class="form-control"
+      >
+        <option [ngValue]="i" *ngFor="let i of tahuns">{{ i }}</option>
+      </select>
+    </div>
+  
+    <div class="form-group no-print">
+      <label class="no-print" for="alamat">Bulan</label>
+      <select
+        class="no-print"
+        style="width:300px"
+        [(ngModel)]="bulan"
+        (change)="onChange()"
+        class="form-control"
+      >
+        <option [ngValue]="i" *ngFor="let i of bulans">{{ i }}</option>
+      </select>
+    </div>
+  
+    <div class="text-right no-print" style="margin: 10px">
+      <button style="width: 100px" class="btn btn-primary" (click)="print()">
+        Print
+      </button>
+    </div>
+  
+    <div class="text-center printable" >
+      <h3>BULAN {{ ConvertBulan(bulan) }} {{tahun}}</h3>
+    </div>
+  
+    <table class="table table-hover" style="margin-top: 20px">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nama</th>
+          <th scope="col">Masuk</th>
+          <th scope="col">Sakit</th>
+          <th scope="col">Izin</th>
+          <th scope="col">Dinas Luar</th>
+          <th scope="col">Tunjangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of datas; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.namapegawai }}</td>
+          <td>{{ item.masuk }}</td>
+          <td>{{ item.sakit }}</td>
+          <td>{{ item.izin }}</td>
+          <td>{{ item.dinas }}</td>
+          <td>Rp.{{ hitungTunjangan(item) | number }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <swal #swalInfo title="Info" text="" type="info"> </swal>
+  

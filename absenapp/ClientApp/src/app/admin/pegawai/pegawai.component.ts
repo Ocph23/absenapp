@@ -74,6 +74,7 @@ export class PegawaiComponent implements OnInit {
       'alamat': [null, Validators.required],
       'sex': [null, Validators.required],
       'jabatan': [null, Validators.required],
+      'bendahara': [null],
     });
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title', backdrop: 'static'

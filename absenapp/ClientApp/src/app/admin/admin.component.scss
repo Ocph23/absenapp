@@ -18,6 +18,43 @@
   }
 
 
+  @media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+
+    .body-content {
+      padding-top: 85px;
+      width: 100% !important;
+    }
+
+    .leftside{
+      width: 0px;
+    }
+
+    .printable,  .printable * {
+      display: block !important;
+   }
+}
+
+
+.printable{
+  display: none;
+}
+
+
+.leftside{
+  width: 20%;
+}
+
+.body-content{
+  width: 80%;
+}
+
+
+
   
 .main {
   background: #d3dfee;

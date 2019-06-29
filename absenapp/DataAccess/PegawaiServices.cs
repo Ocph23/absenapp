@@ -14,7 +14,7 @@ namespace absenapp.DataAccess {
           var result = (from a in db.Pagawai.Where (x => x.idpegawai == id)
                         join b in db.Jabatan.Select() on a.idjabatan equals b.idjabatan
                          select new pegawai{idpegawai=a.idpegawai, nama=a.nama, alamat=a.alamat,
-                         idjabatan=a.idjabatan, email=a.email, sex=a.sex, jabatan=b  } ).FirstOrDefault();
+                         idjabatan=a.idjabatan, email=a.email, sex=a.sex, jabatan=b , bendahara=a.bendahara } ).FirstOrDefault();
 
           return Task.FromResult (result);
         } catch (System.Exception ex) {
@@ -67,6 +67,5 @@ namespace absenapp.DataAccess {
         }
       }
     }
-
   }
 }

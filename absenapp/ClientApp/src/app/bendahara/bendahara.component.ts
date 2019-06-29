@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { AbsenService } from "../../services/absen.service";
-import { absen, pegawai } from "../../models/models.component";
-import { groupBy, mergeMap, toArray, delay } from "rxjs/operators";
-import { from, Observable } from "rxjs";
-import { PegawaiService } from "../../services/pegawai.service";
+import { Component, OnInit } from '@angular/core';
+import { absen } from '../models/models.component';
+import { from } from 'rxjs';
+import { groupBy, mergeMap, toArray } from 'rxjs/operators';
+import { AbsenService } from '../services/absen.service';
+import { PegawaiService } from '../services/pegawai.service';
 
 @Component({
-  selector: "app-laporan",
-  templateUrl: "./laporan.component.html",
-  styleUrls: ["./laporan.component.scss", "../admin.component.scss"]
+  selector: 'app-bendahara',
+  templateUrl: './bendahara.component.html',
+  styleUrls: ['./bendahara.component.scss', "../admin/admin.component.scss"]
 })
-export class LaporanComponent implements OnInit {
+export class BendaharaComponent implements OnInit {
   public tahun: number = new Date().getFullYear();
   public bulan: number = new Date().getMonth() + 1;
 

@@ -31,7 +31,10 @@ namespace absenapp.Models
         [DbColumn("kontak")]
         public string kontak { get; set; }
 
-        [DbColumn("sex")]
+        [DbColumn("bendahara")]
+        public bool bendahara{ get; set; }
+
+         [DbColumn("sex")]
         public string sex{ get; set; }
 
         public jabatan jabatan { get; set; }
