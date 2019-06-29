@@ -17,7 +17,7 @@ test: string;
     loginForm: any;
     constructor(
       private router: Router, private fb: FormBuilder, 
-      private absenService: AbsenService, private pegawaiService:PegawaiService) {
+      private absenService: AbsenService, public pegawaiService:PegawaiService) {
   this.loginForm = fb.group({
     'pegawai': [null, Validators.required],
   });
@@ -27,8 +27,8 @@ test: string;
   }
 
 
-  absenSave(event: any, item: any): void {
-      const data: absen = { idpegawai: item.pegawai.idpegawai, status:'masuk' } as absen;
+    absenSave(event: any, item: any): void {
+        const data: absen = { idpegawai: item.pegawai.idpegawai, status: 'masuk', jamdatang: new Date(), jampulang: new Date() } as absen;
       this.absenService.SaveChange(data).subscribe(x => {
         this.swal.text = 'Sukses';
         this.swal.type = 'info';
@@ -43,10 +43,6 @@ test: string;
             this.swal.show();
            }
       );
-  }
-
-  handleRefusal(item: any): void {
-
   }
 
 }

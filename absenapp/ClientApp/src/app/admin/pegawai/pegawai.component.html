@@ -1,38 +1,49 @@
 <div class="body-main">
 
   <h1>DAFTAR PEGAWAI</h1>
-
   <table class="table table-hover">
-    <thead>
+      <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nama</th>
-            <th scope="col">NIP</th>
-            <th scope="col">jabatan</th>
-            <th scope="col">email</th>
-            <th scope="col">sex</th>
-            <th scope="col">Alamat</th>
-            <th scope="col"></th>
+          <th scope="col">#</th>
+          <th scope="col">Nama</th>
+          <th scope="col">NIP</th>
+          <th scope="col">jabatan</th>
+          <th scope="col">email</th>
+          <th scope="col">sex</th>
+          <th scope="col">Alamat</th>
+          <th scope="col"></th>
         </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of pegawaiService.Datas; let i = index">
-            <th scope="row">{{i+1}}</th>
-            <td>{{item.nama}}</td>
-            <td>{{item.nip}}</td>
-            <td>{{item.jabatan.nama}}</td>
-            <td>{{item.email}}</td>
-            <td>{{item.sex}}</td>
-            <td>{{item.alamat}}</td>
-            <td>
-                <fa-icon (click)="editPegawai(item,content)" [icon]="['fas','edit']"></fa-icon>
-                <fa-icon (click)="Detail(item,detail)" [icon]="['fas','list']"></fa-icon>
-            </td>
-           
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pegawais; let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{item.nama}}</td>
+          <td>{{item.nip}}</td>
+          <td>{{item.jabatan.nama}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.sex}}</td>
+          <td>{{item.alamat}}</td>
+          <td>
+            <fa-icon (click)="editPegawai(item,content)" [icon]="['fas','edit']"></fa-icon>
+            <fa-icon (click)="Detail(item,detail)" [icon]="['fas','list']"></fa-icon>
+          </td>
+  
         </tr>
-     
-    </tbody>
-  </table>
+  
+      </tbody>
+    </table>
+    
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+      </ngb-pagination>
+    
+      <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="20">20 items per page</option>
+      </select>
+    </div>
+
 </div>
 
 
@@ -55,7 +66,7 @@
       </div>
       <div class="form-group">
         <label for="nip">NIP</label>
-        <input formControlName='nip'  class="form-control">
+        <input formControlName='nip' class="form-control">
       </div>
       <div class="form-group">
         <label for="email">Email</label>
@@ -78,8 +89,8 @@
       <div class="form-group">
         <label for="kelamin">Jenis Kelamin</label>
         <select formControlName='sex' type="text" class="form-control">
-          <option value="L" > Laki-Laki</option>
-          <option value="P" > Perempuan</option>
+          <option value="L"> Laki-Laki</option>
+          <option value="P"> Perempuan</option>
 
         </select>
       </div>
@@ -97,56 +108,146 @@
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
+
   </div>
   <div class="modal-body">
-    <div class="form-group">
-      <label for="alamat">Tahun</label>
-      <select style="width:300px" [(ngModel)]="tahun"  (change)="onChange()" class="form-control">
-          <option [ngValue]="i" *ngFor="let i of tahuns">{{i}}</option>
-        </select>
-    </div>
+    <div class="row">
+      <div class="col-auto mr-auto">
+        <div class="row justify-content-start">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="alamat">Bulan</label>
+              <select style="min-width: 150px" [(ngModel)]="bulan" (change)="onChange(SelectedPegawai)" class="form-control">
+                <option [ngValue]="i" *ngFor="let i of bulans">{{i}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="alamat">Tahun</label>
+              <select [(ngModel)]="tahun" (change)="onChange(SelectedPegawai)" class="form-control">
+                <option [ngValue]="i" *ngFor="let i of tahuns">{{i}}</option>
+              </select>
+            </div>
 
-    <div class="form-group"> 
-        <label for="alamat">Bulan</label>
-  <select style="width:300px" [(ngModel)]="bulan" (change)="onChange()"  class="form-control">
-      <option [ngValue]="i" *ngFor="let i of bulans">{{i}}</option>
-    </select>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-auto">
+        <fa-icon class="pull-right" (click)="AddAbsen(SelectedPegawai,addoreditabsen)" [icon]="['fas','plus-circle']" size="2x"></fa-icon>
       </div>
 
-  <table class="table table-hover">
-    <thead>
+    </div>
+
+
+    <table class="table table-hover">
+      <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nama</th>
-            <th scope="col">Masuk</th>
-            <th scope="col">Sakit</th>
-            <th scope="col">Izin</th>
-            <th scope="col">Dinas Luar</th>
-            <th scope="col">Tunjangan</th>
-            <th scope="col"></th>
+          <th scope="col">#</th>
+          <th scope="col">Nama</th>
+          <th scope="col">Tanggal</th>
+          <th scope="col">Status</th>
+          <th scope="col">Datang</th>
+          <th scope="col">Pulang</th>
+          <th scope="col">Keterangan</th>
+          <th scope="col"></th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         <tr *ngFor="let item of Absens; let i = index">
-            <th scope="row">{{i+1}}</th>
-            <td>{{item.namapegawai}}</td>
-            <td>{{item.masuk}}</td>
-            <td>{{item.sakit}}</td>
-            <td>{{item.izin}}</td>
-            <td>{{item.dinas}}</td>
-            <td>
-                <fa-icon (click)="Detail(item,detail)" [icon]="['fas','list']"></fa-icon>
-            </td>
-           
+          <th scope="row">{{i+1}}</th>
+          <td>{{item.namapegawai}}</td>
+          <td>{{item.jamdatang|date :'dd-MM-yyy'}}</td>
+          <td>{{item.status}}</td>
+          <td>{{item.jamdatang|date : 'HH:MM:ss'}}</td>
+          <td>{{item.jampulang|date : 'HH:MM:ss'}}</td>
+          <td>{{item.keterangan}}</td>
+          <td>
+            <fa-icon (click)="EditAbsen(item,addoreditabsen)" [icon]="['fas','edit']"></fa-icon>
+          </td>
         </tr>
-     
-    </tbody>
-  </table>
+
+      </tbody>
+    </table>
+    
+    <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="absenCollectionSize" [(page)]="absenPage" [pageSize]="absenPageSize">
+        </ngb-pagination>
+        <select class="custom-select" style="width: auto" [(ngModel)]="absenPageSize">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="20">20 items per page</option>
+        </select>
+      </div>
   </div>
 </ng-template>
 
-<swal #swalInfo
-      title="Info"
-      text=""
-      type="info">
+
+
+<ng-template class="modal" #addoreditabsen let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{DetailTitle}} </h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="min-height: 400px;">
+    <form [formGroup]="absenForm">
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-4 col-form-label">Tanggal</label>
+        <div class="col-sm-8">
+          <div class="input-group">
+            <input class="form-control" placeholder="dd-mm-yyyy" name="dp" formControlName="tanggal" ngbDatepicker
+              #d="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><span>
+                  <fa-icon class="pull-right" [icon]="['fas','calendar']" ></fa-icon>
+              </span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8">
+          <select class="form-control" formControlName='status'>
+            <option value="masuk">Masuk</option>
+            <option value="sakit">Sakit</option>
+            <option value="izin">Izin</option>
+            <option value="dinas">Dinas</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row vertical-align" *ngIf="absenForm.value.status==='masuk'">
+        <label for="nama" class="col-sm-4 col-form-label">Jam Datang</label>
+        <ngb-timepicker formControlName="pulang" [seconds]="true" [hourStep]="timeSetting.hourStep"
+          [minuteStep]="timeSetting.minuteStep" [secondStep]="timeSetting.secondStep">
+        </ngb-timepicker>
+      </div>
+
+      <div class="form-group row vertical-align" *ngIf="absenForm.value.status==='masuk'">
+        <label for="nama" class="col-sm-4 col-form-label">Jam Pulang</label>
+        <ngb-timepicker formControlName="pulang" [seconds]="true" [hourStep]="timeSetting.hourStep"
+          [minuteStep]="timeSetting.minuteStep" [secondStep]="timeSetting.secondStep">
+        </ngb-timepicker>
+      </div>
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-4 col-form-label">Keterangan</label>
+        <div class="col-sm-8">
+          <textarea formControlName="keterangan" class="form-control"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" [disabled]="!absenForm.valid" (click)="saveAbsen(absenForm.value, SelectedEdit); modal.dismiss('Cross click')" class="btn btn-outline-dark">Save</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<swal #swalInfo title="Info" text="" type="info">
 </swal>

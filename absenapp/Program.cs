@@ -19,6 +19,10 @@ namespace absenapp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+               .UseSetting(WebHostDefaults.DetailedErrorsKey, "true")
+            .UseIISIntegration()
+            .UseIIS()
+        
                 .UseStartup<Startup>();
     }
 }

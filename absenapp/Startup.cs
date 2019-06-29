@@ -25,7 +25,10 @@ namespace absenapp
         public void ConfigureServices (IServiceCollection services) {
             services.AddCors ();
             services.AddMvc ().SetCompatibilityVersion (CompatibilityVersion.Version_2_2);
-
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection ("AppSettings");
             services.Configure<AppSettings> (appSettingsSection);

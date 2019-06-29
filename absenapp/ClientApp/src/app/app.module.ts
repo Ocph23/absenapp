@@ -16,7 +16,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AbsenComponent } from './absen/absen.component';
 import { PegawaiComponent } from './admin/pegawai/pegawai.component';
 import { LaporanComponent } from './admin/laporan/laporan.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { HelperComponent } from './helper/helper.component';
 import { ModelsComponent } from './models/models.component';
@@ -55,7 +55,7 @@ import { JabatanComponent } from './admin/jabatan/jabatan.component';
       ] }
     ])
   ],
-  providers: [],
+  providers: [NgbActiveModal],
   bootstrap: [AppComponent]
 })
 export class AppModule {

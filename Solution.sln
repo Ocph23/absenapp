@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "absenapp", "absenapp\absenapp.csproj", "{A3A24FBA-D7D5-4A54-856F-AAEF155DD10F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocph.DAL.MySql.Core", "..\OcphDalMysql\Ocph.DAL.MySql\Ocph.DAL.MySql.Core\Ocph.DAL.MySql.Core.csproj", "{ECB0B4ED-69CD-4BE7-B830-38296075E6A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A3A24FBA-D7D5-4A54-856F-AAEF155DD10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3A24FBA-D7D5-4A54-856F-AAEF155DD10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3A24FBA-D7D5-4A54-856F-AAEF155DD10F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECB0B4ED-69CD-4BE7-B830-38296075E6A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB0B4ED-69CD-4BE7-B830-38296075E6A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB0B4ED-69CD-4BE7-B830-38296075E6A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB0B4ED-69CD-4BE7-B830-38296075E6A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

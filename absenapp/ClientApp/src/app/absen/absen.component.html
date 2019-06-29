@@ -21,8 +21,7 @@
               <button class="btn btn-success" 
               [swal]="{ title: 'Yakin Melakukan Absen ?' ,showCancelButton:'true'}"
             
-              (confirm)="absenSave($event,loginForm.value)" 
-              (cancel)="handleRefusalToSetEmail($event)">
+              (confirm)="absenSave($event,loginForm.value)">
               OK
             </button>
             <button routerLink="/" class="btn btn-danger">Kembali</button>
