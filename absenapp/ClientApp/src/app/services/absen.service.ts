@@ -52,7 +52,7 @@ export class AbsenService {
   SaveChange(model: absen) {
     try {
       return this.http.post<absen>(
-        this.baseUrl + 'api/absen', model,
+        this.baseUrl + 'api/absen/today', model,
         this.auth.getHttpHeader()
       );
     } catch (error) {

@@ -35,6 +35,17 @@ namespace absenapp.Controllers {
             }
         }
 
+
+
+        [HttpPost("today")]
+        public async Task<IActionResult> Today ([FromBody] absen model) {
+            try {
+                absen result = await absenService.TodayAbsen (model);
+                return Ok (result);
+            } catch (System.Exception ex) {
+                return BadRequest (ex.Message);
+            }
+        }
      
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] absen model) {

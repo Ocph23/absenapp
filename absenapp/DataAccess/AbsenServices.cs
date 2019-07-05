@@ -51,6 +51,48 @@ namespace absenapp.DataAccess {
             }
         }
 
+        public Task<absen> TodayAbsen (absen model) {
+            using (var db = new OcphDbContext ()) {
+                try {
+                    //edit
+                    DateTime dateToday = DateTime.Now;
+                    TimeSpan timeToday = dateToday.TimeOfDay;
+                    TimeSpan batasTerlambat = new TimeSpan (10, 0, 0);
+                    TimeSpan batasPulangCepat = new TimeSpan (16, 0, 0);
+                    TimeSpan batasSiang = new TimeSpan (12, 0, 0);
+
+                    var todayabsen = db.Absens.Where (x => x.idpegawai == model.idpegawai && x.jamdatang.Day == dateToday.Day &&
+                        x.jamdatang.Month == dateToday.Month && x.jamdatang.Year == dateToday.Year).FirstOrDefault ();
+
+                    if (timeToday <= batasTerlambat) {
+                        if (todayabsen != null) {
+                            throw new SystemException ("Anda Sudah Absen Datang");
+                        } else {
+                            model.jamdatang=dateToday;
+                            model.idabsen = db.Absens.InsertAndGetLastID (model);
+                            if (model.idabsen <= 0)
+                                throw new SystemException ("Terjadi Kesalahan, Coba Ulangi Lagi");
+                        }
+                    } else if (timeToday > batasTerlambat && todayabsen == null) {
+                        throw new SystemException ("Maaf Anda Terlambat");
+                    } else if (timeToday > batasTerlambat && todayabsen != null && timeToday < batasSiang) {
+                        throw new SystemException ("belum Saatnya Pulang");
+                    } else if (timeToday > batasPulangCepat) {
+                        todayabsen.jampulang = dateToday;
+                        if (!db.Absens.Update (x => new { x.status, x.jamdatang, x.jampulang, x.keterangan }, todayabsen,
+                                x => x.idabsen == todayabsen.idabsen))
+                            throw new SystemException ("Terjadi Kesalahan , Coba Ulangi Lagi");
+                        model=todayabsen;
+                    }else{
+                        throw new SystemException("Belum Saatnya Pulang");
+                    }
+                    return Task.FromResult (model);
+                } catch (System.Exception ex) {
+                    throw new AppException (ex.Message);
+                }
+            }
+        }
+
         public Task<absen> Insert (absen model) {
             using (var db = new OcphDbContext ()) {
                 try {
