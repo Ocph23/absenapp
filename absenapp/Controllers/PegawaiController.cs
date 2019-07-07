@@ -11,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using absenapp.Helpers;
 using absenapp.DataAccess;
 using absenapp.Models;
-using Microsoft.AspNetCore.Mvc;
 
 namespace absenapp.Controllers {
 
@@ -87,7 +86,7 @@ namespace absenapp.Controllers {
         public async Task<IActionResult> Put([FromBody] pegawai model) {
             try {
                 var result = await pegawaiService.Update (model);
-                if(result!=null && model.bendahara)
+                if(result && model.bendahara)
                 {
                     var userCreated= await _userService.Create(new User{ username=model.email, password="BendaharaPassword"},"BendaharaPassword");
                     var roleName="bendahara";

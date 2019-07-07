@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\OcphDalMysql\Ocph.DAL.MySql\Ocph.DAL.MySql.Core\Ocph.DAL.MySql.Core.csproj" />
+    <ProjectReference Include="..\..\DAL\OcphDalMysql\Ocph.DAL.MySql\Ocph.DAL.MySql.Core\Ocph.DAL.MySql.Core.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
