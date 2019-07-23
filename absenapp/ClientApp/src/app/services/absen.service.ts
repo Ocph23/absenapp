@@ -11,8 +11,8 @@ import { HttpClient } from '@angular/common/http';
 
 export class AbsenService {
   private instance: boolean = false;
-  Datas: absen[];
-
+    Datas: absen[];
+   
   constructor(private fb: FormBuilder, private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string,
     private router: Router,
@@ -48,6 +48,31 @@ export class AbsenService {
       }
     });
   }
+
+
+    public getAbsenToday() {
+        return new Promise<absen[]>((p, r) => {
+            try {
+                this.http
+                    .get<absen[]>(
+                    this.baseUrl + '/api/Absen/absentoday',
+                        this.auth.getHttpHeader()
+                    )
+                    .subscribe(
+                        result => {
+                            this.Datas = result;
+                            p(result);
+                        },
+                        error => {
+                            throw new Error(error);
+                        }
+                    );
+            } catch (error) {
+                r(error);
+            }
+        });
+    }
+
 
   SaveChange(model: absen) {
     try {

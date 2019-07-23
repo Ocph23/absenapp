@@ -1,36 +1,62 @@
 <div id=login>
-  <app-clock></app-clock>
-  <div class="center">
-    <div class="card col-md-12">
-      <div id="login-form">
-        <h2 class="text-left text-info">Form Absen</h2>
-        <form [formGroup]="loginForm" class="form">
-          <div class="form-group">
-            <label for="username" class="text-info">NIP/ID:</label><br>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">
-                  <fa-icon style="font-size: 14px;margin:0px" [icon]="['fas','user']"></fa-icon>
-                </span>
-              </div>
-              <select formControlName='pegawai' type="text" class="form-control">
-                  <option [ngValue]="item" *ngFor="let item of pegawaiService.Datas"> {{item.nama}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group text-center">
-              <button class="btn btn-success" 
-              [swal]="{ title: 'Yakin Melakukan Absen ?' ,showCancelButton:'true'}"
-            
-              (confirm)="absenSave($event,loginForm.value)">
-              OK
-            </button>
-            <button routerLink="/" class="btn btn-danger">Kembali</button>
-          </div>
-        </form>
-      </div>
+    <app-clock></app-clock>
+    <div class="center">
+        <div id="login-form" class="center">
+            <h2 class="text-left text-info">Form Absen</h2>
+            <form [formGroup]="loginForm" class="form">
+                <div class="form-group">
+                    <label for="username" class="text-info">NIP/ID:</label><br>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <fa-icon style="font-size: 14px;margin:0px" [icon]="['fas','user']"></fa-icon>
+                            </span>
+                        </div>
+                        <select formControlName='pegawai' type="text" class="form-control">
+                            <option [ngValue]="item" *ngFor="let item of pegawaiService.Datas"> {{item.nama}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-success"
+                            [swal]="{ title: 'Yakin Melakukan Absen ?' ,showCancelButton:'true'}"
+                            (confirm)="absenSave($event,loginForm.value)">
+                        OK
+                    </button>
+                    <button routerLink="/" class="btn btn-danger">Kembali</button>
+                </div>
+            </form>
+        </div>
+        <div class="container">
+            <h4 class="title">Absen Hari Ini( {{HariIni | date:'dd MMMM yyyy'}} )</h4>
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Datang</th>
+                        <th scope="col">Pulang</th>
+                        <th scope="col">Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of absens; let i = index">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{item.namapegawai}}</td>
+                        <td>{{item.status}}</td>
+                        <td>{{item.jamdatang | date:'HH:ss'}}</td>
+                        <td>{{item.jampulang | date:'HH:ss'}}</td>
+                        <td>{{item.keterangan}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
+   
+   
 
 </div>
 

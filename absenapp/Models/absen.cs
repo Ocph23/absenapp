@@ -21,10 +21,10 @@ namespace absenapp.Models
         public string status { get; set; }
 
         [DbColumn("jamdatang")]
-        public DateTime jamdatang { get; set; }
+        public DateTime? jamdatang { get; set; }
 
         [DbColumn("jampulang")]
-        public DateTime jampulang { get; set; }
+        public DateTime? jampulang { get; set; }
 
         [DbColumn("keterangan")]
         public string keterangan { get; set; }

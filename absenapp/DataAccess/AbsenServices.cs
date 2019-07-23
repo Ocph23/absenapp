@@ -41,6 +41,29 @@ namespace absenapp.DataAccess {
             }
         }
 
+        internal Task<List<absen>> GetAbsenToday()
+        {
+            using (var db = new OcphDbContext())
+            {
+                DateTime tanggalHariIni = DateTime.Now;
+
+                var todayabsen = from a in db.Absens.Where(x => x.jamdatang.Value.Day == tanggalHariIni.Day &&
+                    x.jamdatang.Value.Month == tanggalHariIni.Month && x.jamdatang.Value.Year == tanggalHariIni.Year)
+                                 join p in db.Pagawai.Select() on a.idpegawai equals p.idpegawai
+                                 select new absen
+                                 {
+                                     idabsen = a.idabsen,
+                                     idpegawai = a.idpegawai,
+                                     jamdatang = a.jamdatang,
+                                     jampulang = a.jampulang,
+                                     keterangan = a.keterangan,
+                                     namapegawai = p.nama,
+                                     status = a.status
+                                 };
+                return Task.FromResult(todayabsen.ToList());
+            }
+        }
+
         public Task<bool> Update (absen item) {
             using (var db = new OcphDbContext ()) {
                 try {
@@ -55,38 +78,74 @@ namespace absenapp.DataAccess {
             using (var db = new OcphDbContext ()) {
                 try {
                     //edit
-                    DateTime dateToday = DateTime.Now;
-                    TimeSpan timeToday = dateToday.TimeOfDay;
+                    DateTime tanggalHariIni = DateTime.Now;
+                    TimeSpan waktuHariIni = tanggalHariIni.TimeOfDay;
+                    TimeSpan jamMasuk = new TimeSpan(8, 0, 0);
                     TimeSpan batasTerlambat = new TimeSpan (10, 0, 0);
+                    TimeSpan batasSiang = new TimeSpan(12, 0, 0);
                     TimeSpan batasPulangCepat = new TimeSpan (16, 0, 0);
-                    TimeSpan batasSiang = new TimeSpan (12, 0, 0);
+                    TimeSpan jamPulang = new TimeSpan(17, 0, 0);
 
-                    var todayabsen = db.Absens.Where (x => x.idpegawai == model.idpegawai && x.jamdatang.Day == dateToday.Day &&
-                        x.jamdatang.Month == dateToday.Month && x.jamdatang.Year == dateToday.Year).FirstOrDefault ();
+                    var todayabsen = db.Absens.Where (x => x.idpegawai == model.idpegawai && x.jamdatang.Value.Day == tanggalHariIni.Day &&
+                        x.jamdatang.Value.Month == tanggalHariIni.Month && x.jamdatang.Value.Year == tanggalHariIni.Year).FirstOrDefault ();
 
-                    if (timeToday <= batasTerlambat) {
-                        if (todayabsen != null) {
-                            throw new SystemException ("Anda Sudah Absen Datang");
-                        } else {
-                            model.jamdatang=dateToday;
-                            model.idabsen = db.Absens.InsertAndGetLastID (model);
+                    if(todayabsen ==null)
+                    {
+                        if(waktuHariIni>batasTerlambat)
+                            throw new SystemException("Anda Tidak Dapat Absen Karena Terlambat");
+                        else
+                        {
+                            model.jamdatang = tanggalHariIni;
+                            model.jampulang = null;
+                            if (waktuHariIni>jamMasuk)
+                            {
+                                model.keterangan = "Datang : Terlambat, ";
+                            }else
+                            {
+                                model.keterangan = "Datang : Tepat Waktu,";
+                            }
+                            model.idabsen = db.Absens.InsertAndGetLastID(model);
                             if (model.idabsen <= 0)
-                                throw new SystemException ("Terjadi Kesalahan, Coba Ulangi Lagi");
+                                throw new SystemException("Terjadi Kesalahan, Coba Ulangi Lagi");
+                            return Task.FromResult(model);
                         }
-                    } else if (timeToday > batasTerlambat && todayabsen == null) {
-                        throw new SystemException ("Maaf Anda Terlambat");
-                    } else if (timeToday > batasTerlambat && todayabsen != null && timeToday < batasSiang) {
-                        throw new SystemException ("belum Saatnya Pulang");
-                    } else if (timeToday > batasPulangCepat) {
-                        todayabsen.jampulang = dateToday;
-                        if (!db.Absens.Update (x => new { x.status, x.jamdatang, x.jampulang, x.keterangan }, todayabsen,
-                                x => x.idabsen == todayabsen.idabsen))
-                            throw new SystemException ("Terjadi Kesalahan , Coba Ulangi Lagi");
-                        model=todayabsen;
-                    }else{
-                        throw new SystemException("Belum Saatnya Pulang");
                     }
-                    return Task.FromResult (model);
+                    else
+                    {
+                        if (waktuHariIni <= batasTerlambat)
+                        {
+                            throw new SystemException("Anda Sudah Absen Datang");
+                        }
+
+                        if (waktuHariIni > batasTerlambat && waktuHariIni < batasPulangCepat)
+                        {
+                            throw new SystemException("belum Saatnya Pulang");
+                        }
+
+                        if(todayabsen.jampulang!=null)
+                        {
+                            throw new SystemException("Anda Sudah Absen Pulang");
+                        }
+
+                        if (waktuHariIni > batasPulangCepat)
+                        {
+                            todayabsen.keterangan += $"\r Pulang : Terlalu Cepat";
+                        }
+
+                        if (waktuHariIni > jamPulang)
+                        {
+                            todayabsen.keterangan += $"\r Pulang : Tepat Waktu";
+                        }
+
+                        todayabsen.jampulang = tanggalHariIni;
+
+                        if (!db.Absens.Update(x => new { x.status, x.jamdatang, x.jampulang, x.keterangan }, todayabsen,
+                                x => x.idabsen == todayabsen.idabsen))
+                            throw new SystemException("Terjadi Kesalahan , Coba Ulangi Lagi");
+                        model = todayabsen;
+                        return Task.FromResult(model);
+                    }
+                 
                 } catch (System.Exception ex) {
                     throw new AppException (ex.Message);
                 }
@@ -103,18 +162,18 @@ namespace absenapp.DataAccess {
                             throw new SystemException ("Terjadi Kesalahan , Coba Ulangi Lagi");
                     } else {
 
-                        int tanggal = model.jamdatang.Day;
-                        int bulan = model.jamdatang.Month;
-                        int tahun = model.jamdatang.Year;
+                        int tanggal = model.jamdatang.Value.Day;
+                        int bulan = model.jamdatang.Value.Month;
+                        int tahun = model.jamdatang.Value.Year;
 
-                        var today = db.Absens.Where (x => x.idpegawai == model.idpegawai && x.jamdatang.Day == tanggal &&
-                            x.jamdatang.Month == bulan && x.jamdatang.Year == tanggal).FirstOrDefault ();
+                        var today = db.Absens.Where (x => x.idpegawai == model.idpegawai && x.jamdatang.Value.Day == tanggal &&
+                            x.jamdatang.Value.Month == bulan && x.jamdatang.Value.Year == tanggal).FirstOrDefault ();
 
                         if (today == null) {
                             model.idabsen = db.Absens.InsertAndGetLastID (model);
                         } else {
-                            if (today.jampulang.Day != model.jampulang.Day || today.jampulang.Month != model.jampulang.Month ||
-                                today.jampulang.Year != model.jampulang.Year) {
+                            if (today.jampulang.Value.Day != model.jampulang.Value.Day || today.jampulang.Value.Month != model.jampulang.Value.Month ||
+                                today.jampulang.Value.Year != model.jampulang.Value.Year) {
                                 if (!db.Absens.Update (x => new { x.jampulang }, today, x => x.idabsen == today.idabsen))
                                     throw new SystemException ("Terjadi Kesalahan , Coba Ulangi Lagi");
                             } else {

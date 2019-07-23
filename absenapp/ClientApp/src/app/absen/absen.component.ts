@@ -13,8 +13,11 @@ import { PegawaiService } from '../services/pegawai.service';
 })
 export class AbsenComponent implements OnInit {
   @ViewChild('swalMessage') swal: SwalComponent;
-test: string;
+    test: string;
     loginForm: any;
+    absens: absen[];
+    HariIni: Date = new Date();
+
     constructor(
       private router: Router, private fb: FormBuilder, 
       private absenService: AbsenService, public pegawaiService:PegawaiService) {
@@ -23,6 +26,10 @@ test: string;
   });
 }
   ngOnInit() {
+
+      this.absenService.getAbsenToday().then(x => {
+          this.absens = x;
+      });
 
   }
 
@@ -33,7 +40,19 @@ test: string;
         this.swal.text = 'Sukses';
         this.swal.type = 'info';
         this.swal.title = 'INFO';
-        this.swal.show();
+          this.swal.show();
+
+          if (!x.jampulang)
+          {
+              x.namapegawai = item.pegawai.nama;
+              this.absens.push(x);
+          }
+          else {
+              const d = this.absens.find(x => x.idpegawai==item.pegawai.idpegawai);
+              d.jampulang = x.jampulang;
+              d.keterangan = x.keterangan;
+          }
+
 
       },
           err => {
