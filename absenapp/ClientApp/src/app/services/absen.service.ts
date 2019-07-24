@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class AbsenService {
   private instance: boolean = false;
-    Datas: absen[];
+    Datas: absen[]=[];
    
   constructor(private fb: FormBuilder, private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string,
@@ -21,7 +21,7 @@ export class AbsenService {
     this.get();
   }
 
-  public get() {
+    public get() {
     return new Promise<absen[]>((p, r) => {
       try {
         if (!this.instance) {
@@ -85,6 +85,17 @@ export class AbsenService {
     }
   }
 
+    SaveChangeByAdmin(model: absen) {
+        try {
+            return this.http.post<absen>(
+                this.baseUrl + 'api/absen/TodayByadmin', model,
+                this.auth.getHttpHeader()
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
   async Delete(data: absen) {
     return await this.http.delete<absen>(
       this.baseUrl + 'api/absen/' + data.idpegawai,
@@ -92,11 +103,11 @@ export class AbsenService {
     ).toPromise();
   }
 
-  async getAbsensByPegawaiId(item:pegawai){
-    return await this.http.delete<absen>(
-      this.baseUrl + 'api/absen/' + item.idpegawai,
-      this.auth.getHttpHeader()
-    ).toPromise();
+   getAbsensByPegawaiId(item: pegawai){
+       return this.http.get<absen[]>(
+           this.baseUrl + 'api/Absen/ByPegawaiId/' + item.idpegawai,
+            this.auth.getHttpHeader()
+        );
   }
 
 }

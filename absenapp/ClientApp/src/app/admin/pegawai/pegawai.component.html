@@ -160,15 +160,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of Absens; let i = index">
-          <th scope="row">{{i+1}}</th>
-          <td>{{item.namapegawai}}</td>
-          <td>{{item.jamdatang|date :'dd-MM-yyy'}}</td>
-          <td>{{item.status}}</td>
-          <td>{{item.jamdatang|date : 'HH:MM:ss'}}</td>
-          <td>{{item.jampulang|date : 'HH:MM:ss'}}</td>
-          <td>{{item.keterangan}}</td>
-        </tr>
+          <tr *ngFor="let item of Absens; let i = index">
+              <th scope="row">{{i+1}}</th>
+              <td>{{item.namapegawai}}</td>
+              <td>{{item.jamdatang|date :'dd-MM-yyy'}}</td>
+              <td>{{item.status}}</td>
+              <td><span *ngIf="item.status==='masuk'">{{item.jamdatang|date : 'HH:MM:ss'}}</span></td>
+              <td><span *ngIf="item.status==='masuk'">{{item.jampulang|date : 'HH:MM:ss'}}</span></td>
+              <td>{{item.keterangan}}</td>
+          </tr>
 
       </tbody>
     </table>

@@ -18,6 +18,34 @@ namespace absenapp.DataAccess {
             }
         }
 
+        public Task<List<absen>> GetByPegawaiId(int id)
+        {
+            using (var db = new OcphDbContext())
+            {
+                try
+                {
+                    var result = from a in db.Pagawai.Where(x=>x.idpegawai==id)
+                                 join b in db.Absens.Select().DefaultIfEmpty() on a.idpegawai equals b.idpegawai
+                                 select new absen
+                                 {
+                                     idabsen = b.idabsen,
+                                     idpegawai = b.idpegawai,
+                                     jamdatang = b.jamdatang,
+                                     jampulang = b.jampulang,
+                                     status = b.status,
+                                     keterangan = b.keterangan,
+                                     namapegawai = a.nama
+                                 };
+
+                    return Task.FromResult(result.ToList());
+                }
+                catch (System.Exception ex)
+                {
+                    throw new AppException(ex.Message);
+                }
+            }
+        }
+
         public Task<List<absen>> Get () {
             using (var db = new OcphDbContext ()) {
                 try {
@@ -91,19 +119,32 @@ namespace absenapp.DataAccess {
 
                     if(todayabsen ==null)
                     {
-                        if(waktuHariIni>batasTerlambat)
-                            throw new SystemException("Anda Tidak Dapat Absen Karena Terlambat");
+                        if(model.status== "masuk")
+                        {
+                            if (waktuHariIni > batasTerlambat)
+                                throw new SystemException("Anda Tidak Dapat Absen Karena Terlambat");
+                            else
+                            {
+                                model.jamdatang = tanggalHariIni;
+                                model.jampulang = null;
+                                if (waktuHariIni > jamMasuk)
+                                {
+                                    model.keterangan = "Datang : Terlambat, ";
+                                }
+                                else
+                                {
+                                    model.keterangan = "Datang : Tepat Waktu,";
+                                }
+                                model.idabsen = db.Absens.InsertAndGetLastID(model);
+                                if (model.idabsen <= 0)
+                                    throw new SystemException("Terjadi Kesalahan, Coba Ulangi Lagi");
+                                return Task.FromResult(model);
+                            }
+                        }
                         else
                         {
                             model.jamdatang = tanggalHariIni;
                             model.jampulang = null;
-                            if (waktuHariIni>jamMasuk)
-                            {
-                                model.keterangan = "Datang : Terlambat, ";
-                            }else
-                            {
-                                model.keterangan = "Datang : Tepat Waktu,";
-                            }
                             model.idabsen = db.Absens.InsertAndGetLastID(model);
                             if (model.idabsen <= 0)
                                 throw new SystemException("Terjadi Kesalahan, Coba Ulangi Lagi");
@@ -151,6 +192,66 @@ namespace absenapp.DataAccess {
                 }
             }
         }
+
+
+
+
+        public Task<absen> Absenbyadmin(absen model)
+        {
+            using (var db = new OcphDbContext())
+            {
+                try
+                {
+                    //edit
+                    DateTimeOffset localTime1 = DateTime.SpecifyKind(model.jamdatang.Value, DateTimeKind.Utc);
+                    model.jamdatang = localTime1.LocalDateTime;
+
+                    if (model.jampulang!=null)
+                    {
+                        DateTimeOffset localTime2 = DateTime.SpecifyKind(model.jampulang.Value, DateTimeKind.Utc);
+                        model.jampulang = localTime2.LocalDateTime;
+                    }
+
+
+                    DateTime tanggalHariIni = model.jamdatang.Value;
+                    var todayabsen = db.Absens.Where(x => x.idpegawai == model.idpegawai && x.jamdatang.Value.Day == tanggalHariIni.Day &&
+                       x.jamdatang.Value.Month == tanggalHariIni.Month && x.jamdatang.Value.Year == tanggalHariIni.Year).FirstOrDefault();
+
+                    if (todayabsen == null)
+                    {
+                        model.jamdatang = tanggalHariIni;
+                        if(model.status!="masuk")
+                            model.jampulang = null;
+
+                        model.idabsen = db.Absens.InsertAndGetLastID(model);
+                        if (model.idabsen <= 0)
+                            throw new SystemException("Terjadi Kesalahan, Coba Ulangi Lagi");
+                        return Task.FromResult(model);
+                    }
+                    else
+                    {
+                        todayabsen.jamdatang = model.jamdatang;
+                        todayabsen.jampulang= model.jampulang;
+                        todayabsen.status = model.status;
+                        todayabsen.keterangan= model.keterangan;
+
+
+                        if (!db.Absens.Update(x => new { x.status, x.jamdatang, x.jampulang, x.keterangan }, todayabsen,
+                                x => x.idabsen == todayabsen.idabsen))
+                            throw new SystemException("Terjadi Kesalahan , Coba Ulangi Lagi");
+                        model = todayabsen;
+                        return Task.FromResult(model);
+
+                    }
+
+                }
+                catch (System.Exception ex)
+                {
+                    throw new AppException(ex.Message);
+                }
+            }
+        }
+
 
         public Task<absen> Insert (absen model) {
             using (var db = new OcphDbContext ()) {

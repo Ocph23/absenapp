@@ -108,16 +108,16 @@ export class PegawaiComponent implements OnInit {
   }
 
 
-
-
-  onChange(item: pegawai): void {
-    this.Absens = [];
-
-    this.Absens = this.absenServices.Datas.filter(x => x.idpegawai === item.idpegawai &&
-      new Date(x.jamdatang).getFullYear() === this.tahun &&
-      new Date(x.jamdatang).getMonth() + 1 === this.bulan).map((country, i) => ({ id: i + 1, ...country }))
-      .slice((this.absenPage - 1) * this.absenPageSize, (this.page - 1) * this.absenPageSize + this.absenPageSize);
-    this.absenCollectionSize = this.Absens.length;
+ onChange(item: pegawai): void {
+     this.Absens = [];
+     this.absenServices.getAbsensByPegawaiId(item).subscribe(data => {
+         this.Absens = data.filter(x => x.idpegawai === item.idpegawai &&
+             new Date(x.jamdatang).getFullYear() === this.tahun &&
+             new Date(x.jamdatang).getMonth() + 1 === this.bulan).map((country, i) => ({ id: i + 1, ...country }))
+             .slice((this.absenPage - 1) * this.absenPageSize, (this.page - 1) * this.absenPageSize + this.absenPageSize);
+         this.absenCollectionSize = this.Absens.length;
+     });
+    
   }
 
   editPegawai(item: pegawai, content: any) {
@@ -200,8 +200,8 @@ export class PegawaiComponent implements OnInit {
     const datang = new Date();
     const tanggal = { 'year': datang.getFullYear(), 'month': datang.getMonth() + 1, 'day': datang.getDate() };
     const datangJam = { hour: datang.getHours(), minute: datang.getMinutes(), second: datang.getSeconds() };
-    const pulangJam = { hour: datang.getHours(), minute: datang.getMinutes(), second: datang.getSeconds() };
-    item.status = 'masuk';
+      const pulangJam = { hour: datang.getHours(), minute: datang.getMinutes(), second: datang.getSeconds() };
+      item.status = null;
 
     this.absenForm = this.fb.group({
       'idpegawai': item.idpegawai,
@@ -237,14 +237,30 @@ export class PegawaiComponent implements OnInit {
     model.jampulang.setSeconds(item.pulang.second);
     model.keterangan = item.keterangan;
     model.idabsen = item.idabsen;
-    model.idpegawai = item.idpegawai;
+      model.idpegawai = item.idpegawai;
 
-    this.absenServices.SaveChange(model).subscribe(x => {
+      if (model.status != "masuk")
+          model.jampulang = null;
+
+
+      this.absenServices.SaveChangeByAdmin(model).subscribe(x => {
       this.swal.text = 'Sukses';
       this.swal.title = 'Info';
-      this.swal.type = 'info';
-      this.swal.show();
-      this.activeModal.dismiss();
+          this.swal.type = 'info';
+         
+          this.swal.show();
+          x.namapegawai = this.SelectedPegawai.nama;
+          const exists = this.Absens.find(o => o.idabsen == x.idabsen);
+          if (!exists)
+              this.Absens.push(x);
+          else {
+              exists.status = x.status;
+              exists.jamdatang = x.jamdatang;
+              exists.jampulang = x.jampulang;
+              exists.keterangan = x.keterangan;
+          }
+          this.activeModal.dismiss();
+
 
     }, e => {
       this.swal.text = e.error;

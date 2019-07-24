@@ -30,7 +30,6 @@
         <div class="container">
             <h4 class="title">Absen Hari Ini( {{HariIni | date:'dd MMMM yyyy'}} )</h4>
             <table class="table table-striped">
-
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -46,17 +45,14 @@
                         <th scope="row">{{i+1}}</th>
                         <td>{{item.namapegawai}}</td>
                         <td>{{item.status}}</td>
-                        <td>{{item.jamdatang | date:'HH:ss'}}</td>
-                        <td>{{item.jampulang | date:'HH:ss'}}</td>
+                        <td><span *ngIf="item.status==='masuk'">{{item.jamdatang|date : 'HH:MM:ss'}}</span></td>
+                        <td><span *ngIf="item.status==='masuk'">{{item.jampulang|date : 'HH:MM:ss'}}</span></td>
                         <td>{{item.keterangan}}</td>
                     </tr>
-
                 </tbody>
             </table>
         </div>
     </div>
-   
-   
 
 </div>
 

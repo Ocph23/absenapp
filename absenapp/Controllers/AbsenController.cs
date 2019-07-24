@@ -23,7 +23,8 @@ namespace absenapp.Controllers {
             }
         }
 
-        [HttpGet ("id")]
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync (int id) {
             try {
                 var result = await absenService.GetById (id);
@@ -32,6 +33,23 @@ namespace absenapp.Controllers {
             } catch (System.Exception ex) {
 
                 return BadRequest (ex.Message);
+            }
+        }
+
+
+        [HttpGet("ByPegawaiId/{id}")]
+        public async Task<IActionResult> GetByPegawaiIdAsync(int id)
+        {
+            try
+            {
+                var result = await absenService.GetByPegawaiId(id);
+                return Ok(result);
+
+            }
+            catch (System.Exception ex)
+            {
+
+                return BadRequest(ex.Message);
             }
         }
 
@@ -49,6 +67,20 @@ namespace absenapp.Controllers {
             }
         }
 
+        [HttpPost("TodayByadmin")]
+        public async Task<IActionResult> TodayByadmin([FromBody] absen model)
+        {
+            try
+            {
+                absen result = await absenService.Absenbyadmin(model);
+                return Ok(result);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("today")]
         public async Task<IActionResult> Today ([FromBody] absen model) {
             try {
@@ -58,7 +90,9 @@ namespace absenapp.Controllers {
                 return BadRequest (ex.Message);
             }
         }
-     
+
+       
+
         [HttpPost]
         public async Task<IActionResult> Post ([FromBody] absen model) {
             try {
